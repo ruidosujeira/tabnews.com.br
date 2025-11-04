@@ -2,7 +2,7 @@ import { email, password, useForm } from '@tabnews/forms';
 import { tryParseUrl } from '@tabnews/helpers';
 import { FormField } from '@tabnews/ui';
 import { useRouter } from 'next/router';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { Box, ButtonWithLoader, DefaultLayout, Flash, Heading, Link, Text } from '@/TabNewsUI';
 import { createErrorMessage, useUser } from 'pages/interface';
@@ -44,6 +44,16 @@ function LoginForm() {
   const { fetchUser } = useUser();
   const { getFieldProps, handleSubmit, state, updateState } = useForm(formConfig);
   const globalErrorMessage = state.globalMessage.error;
+
+  const emailInputRef = useRef(null);
+  const passwordInputRef = useRef(null);
+
+  function handleKeyDown(event) {
+    if (event.key === 'Enter') {
+      event.preventDefault();
+      passwordInputRef.current.focus();
+    }
+  }
 
   async function onSubmit(data) {
     updateState({
@@ -97,8 +107,8 @@ function LoginForm() {
 
   return (
     <form style={{ width: '100%' }} onSubmit={handleSubmit(onSubmit)}>
-      <FormField {...getFieldProps('email')} />
-      <FormField {...getFieldProps('password')} />
+      <FormField {...getFieldProps('email')} ref={emailInputRef} onKeyDown={handleKeyDown} />
+      <FormField {...getFieldProps('password')} ref={passwordInputRef} />
 
       {globalErrorMessage && (
         <Flash variant="danger" sx={{ mt: 3 }}>
