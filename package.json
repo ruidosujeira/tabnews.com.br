@@ -36,6 +36,7 @@
     "slug": "11.0.0",
     "snakeize": "0.1.0",
     "swr": "2.3.3",
+    "unist-util-visit": "5.0.0",
     "vis-network": "9.1.10"
   },
   "devDependencies": {
